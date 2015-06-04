@@ -60,10 +60,12 @@ class Book(db.Model):
                  bannerUrl='x',
                  editing=False,
                  phrases='x',
-                 location="x"
+                 location="x",
+                 dateCreated=datetime.now(),
+                 lastEdited=datetime.now()
     ):
-        self.dateCreated = datetime.now()
-        self.lastEdited = datetime.now()
+        self.dateCreated = dateCreated
+        self.lastEdited = lastEdited
         self.createdBy = createdBy
         self.location = location
         self.privacy = privacy
@@ -90,19 +92,17 @@ def api_book(data=None):
         print data
         if data:
             data=json.loads(data)
-            book = Book(sourceName=data['sourceName'])
-                #dateCreated=data['dateCreated']),
-                        # lastEdited=data['lastEdited'],
-                        # createdBy=data['createdBy'],
-                        # privacy=data['privacy'],
-                
-                        # targetName=data['targetName'],
-                        # title=data['title'],
-                        # favorite=data['favorite'],
-                        # bannerUrl=data['bannerUrl'],
-                        # editing=data['editing'],
-                        # phrases=data['phrases'],
-                        # location=data['location'])
+            book = Book(
+                sourceName=data['sourceName'],
+                createdBy=data['createdBy'],
+                privacy=data['privacy'],
+                targetName=data['targetName'],
+                title=data['title'],
+                favorite=data['favorite'],
+                bannerUrl=data['bannerUrl'],
+                editing=data['editing'],
+                phrases=data['phrases'],
+                location=data['location'])
             
             db.session.add(book)
             db.session.commit()
