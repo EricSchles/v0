@@ -30,6 +30,7 @@ For ease of development, be sure to use the Ember Inspector available for [Chrom
 
 * ~~Save input fields to model~~
 * ~~Set up server~~
+* Consume JSON API with Ember
 * Design dashboard UI
 * New Book flow
 * User Object
