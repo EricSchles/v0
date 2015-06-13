@@ -8,6 +8,6 @@ App.IndexRoute = Ember.Route.extend({
     //   }
     // ];
     // return $.getJSON('http://localhost:5000/api/book');
-    return this.store.find('dashboard/book');
+    // return this.store.find('dashboard/book');
   },
 })
