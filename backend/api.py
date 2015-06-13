@@ -46,7 +46,7 @@ class Book(db.Model):
     favorite = db.Column(db.Boolean(False),unique=False,nullable=False)
     bannerUrl = db.Column(db.String(500),unique=False,nullable=False)
     editing = db.Column(db.Boolean(True),unique=False,nullable=False)
-    phrases = db.Column(db.String(1000000),db.ForeignKey('Phrase.book')) 
+    phrases = db.Column(db.String(1000000),db.ForeignKey('Phrase.book'))
 
     #set reasonable defaults later
     #no one will ever know....So sayth the freddie
@@ -84,7 +84,7 @@ class Book(db.Model):
 #     #def __init__(self,data):
 #     #    self.data = data
 
-        
+
 @app.route("/api/book",methods=["GET","POST"])
 @app.route("/api/book/<data>",methods=["GET","POST"])
 def api_book(data=None):
@@ -103,13 +103,30 @@ def api_book(data=None):
                 editing=data['editing'],
                 phrases=data['phrases'],
                 location=data['location'])
-            
+
             db.session.add(book)
             db.session.commit()
             return "success"
     if request.method=='GET':
-        return Book.query.all()[0].sourceName
-    
+        #return json.dumps(Book.query.all())
+        books = []
+        for result in Book.query.all():
+            book = {}
+            book["dateCreated"] = str(result.dateCreated)
+            book["lastEdited"] = str(result.lastEdited)
+            book["createdBy"] = result.createdBy
+            book["location"] = result.location
+            book["privacy"] = result.privacy
+            book["sourceName"] = result.sourceName
+            book["targetName"] = result.targetName
+            book["title"] = result.title
+            book["favorite"] = result.favorite
+            book["bannerUrl"] = result.bannerUrl
+            book["editing"] =result.editing
+            book["phrases"] = result.phrases
+            books.append(book)
+        return json.dumps(books)
+
 # Create the database tables.
 db.create_all()
 
